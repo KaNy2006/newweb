@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tin tức</title>
+</head>
+<body>
+<% if(id) {%>
+<p>Bạn đang xem tin tức số <%= id %></p>
+<p><%= newsList[0].title %></p>
+<p><%= newsList[0].description %></p>
+<% } else {%>
+<h1>Danh sách tin tức</h1>
+<% newsList.forEach((item)=>{ %>
+<ul>
+<li><a href="/news/<%= item.id %>"><%= item.title %></a></li>
+</ul>
+<% })%>
+<% } %>
+<a href="/">Trang chủ</a> |
+<a href="/about">Giới thiệu</a>
+</body>
+</html>

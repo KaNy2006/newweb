@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tìm kiếm</title>
+</head>
+<body>
+<h1>Tìm kiếm bài viết</h1>
+<form method="GET" action="/search">
+<input type="text" name="keyword" placeholder="Nhập từ khóa">
+<button type="submit">Tìm kiếm</button>
+</form>
+<% if (keyword){ %>
+<p>Bạn đang tìm kiếm tin tức về: <%= keyword %></p>
+<% } %>
+</body>
+</html>

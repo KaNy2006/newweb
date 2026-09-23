@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đăng nhập</title>
+</head>
+<body>
+<% if(islogin) {%>
+<p>Xin chào <%= username %></p>
+<p><a href="/">Click vào đây để quay lại trang chủ </a></p>
+<% } else { %>
+<h1>Đăng nhập</h1>
+<form method="POST" action="/login">
+<label>Username:</label>
+<input type="text" name="username"><br>
+<label>Password:</label>
+<input type="password" name="password"><br>
+<button type="submit">Đăng nhập</button>
+</form>
+<% } %>
+</body>
+</html>
