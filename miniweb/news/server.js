@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
 const querystring = require("querystring");
+const db = require("./db");
 
 const server = http.createServer((req, res) => {
     let filePath = "";
@@ -67,38 +68,33 @@ const server = http.createServer((req, res) => {
             const pathParts = req.url.split("/");
             const id = pathParts[2];
 
-            let newsList = [
-                {
-                    id: 1,
-                    title: "Nodejs",
-                    description: "Lập trình backend"
-                },
-                {
-                    id: 2,
-                    title: "Web động",
-                    description: "Trả về dữ liệu tương ứng với request"
-                },
-                {
-                    id: 3,
-                    title: "React",
-                    description: "Lập trình frontend"
+            try {
+                const [newsList] = await db.query(
+                    "SELECT id, title, description FROM news ORDER BY id"
+                );
+
+                if (id) {
+                    const selectedNews = newsList.find(item => item.id === Number(id));
+
+                    data = ejs.render(data, {
+                        id: id,
+                        newsList: selectedNews ? [selectedNews] : []
+                    });
+                } else {
+                    data = ejs.render(data, {
+                        id: "",
+                        newsList: newsList
+                    });
                 }
-            ];
 
-            if (id) {
-                data = ejs.render(data, {
-                    id: id,
-                    newsList: [newsList[id - 1]]
+                res.end(data);
+            } catch (error) {
+                console.error("Database error:", error);
+                res.writeHead(500, {
+                    "Content-Type": "text/html; charset=utf-8"
                 });
-            } 
-            else {
-                data = ejs.render(data, {
-                    id: "",
-                    newsList: newsList
-                });
+                res.end("<h1>Lỗi kết nối database</h1>");
             }
-
-            res.end(data);
             return;
         }
 
